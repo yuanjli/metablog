@@ -27,5 +27,10 @@ app.get('/', function(req, res){   // request and response
 });
 
 
+app.get('*', function(req, res) {   // * is the wild card operator for catch all 
+	console.log('wildcard route');
+	res.render('error');
+});
+
 // Hey! Listen!@ 
 app.listen(3000);

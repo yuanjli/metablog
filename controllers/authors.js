@@ -7,7 +7,8 @@ router.get('/', function(req, res){
 		res.render('authors/index', {authors: allAuthors});
 	}).catch(function(err){
 		console.log(err);
-		res.send('bad things happened');
+		//res.send('bad things happened');
+		res.render('error');
 	})
 	//res.render('authors/index');  // render already look for views pages 
 });
@@ -24,7 +25,8 @@ router.get('/:id', function(req, res){	// found the author ID
 	}).then(function(foundAuthor){
 		res.render('authors/show', {author: foundAuthor});  // pass the author that we found to the show page 
 	}).catch(function(err){
-		res.send('can\'t find that author!');
+		//res.send('can\'t find that author!');
+		res.render('error');
 	});
 });
 
@@ -34,7 +36,8 @@ router.post('/', function(req, res){
 		res.redirect('/authors/' + createAuthor.id);
 	}).catch(function(err){
 		console.log(err);
-		res.send('derp');
+		//res.send('derp');
+		res.render('error');
 	});    
 	//res.send('/authors POST route reached');
 });
