@@ -4,7 +4,7 @@ var ejsLayouts = require('express-ejs-layouts');
 var express = require('express');
 
 
-// Declare global variables 
+// Declare global variables:
 var app = express();
 
 
