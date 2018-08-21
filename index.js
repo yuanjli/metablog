@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: false}));  // when you use a form the d
 // Include controllers/routers;
 app.use('/articles', require('./controllers/articles'));
 app.use('/authors', require('./controllers/authors'));  // require indicates that running on the back end.
-
+app.use('/comments', require('./controllers/comments'));
 
 
 // Define routes 
@@ -27,6 +27,7 @@ app.get('/', function(req, res){   // request and response
 });
 
 
+// wildcard for routes
 app.get('*', function(req, res) {   // * is the wild card operator for catch all 
 	console.log('wildcard route');
 	res.render('error');

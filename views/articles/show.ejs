@@ -3,9 +3,64 @@
 <h4> By 
 	<a href="/authors/<%=article.authorId%>"> 
 		<%= article.author.name %>
-	 </a> 
+	</a> 
 </h4>
 
+<div>
+	<% if(article.tags && article.tags.length > 0) {%>
+	<% article.tags.forEach(function(t) {%>
+	<a href="/tags/<%= t.id %>">
+		#<%= t.name %>
+
+	</a>
+	<%});%>
+	<% } else { %>
+	<p> No tags yet! </p>
+	<%}%>
+</div>
 <p>
 	<%= article.content %>
 </p>
+
+<hr>
+<div>
+	<h3> Comments </h3>
+	<% article.comments.forEach(function(c) {%>
+	<div> <%= c.content %> </div>
+	<div><em>- Someone </em></div>
+	<hr>
+	<%});%>
+</div>
+
+<div>
+	<h3> what are your thoughts ? </h3>
+	<form method="POST" action="/comments"> 
+		<div class="form-group">
+			<label> Comment:</label>
+			<textarea name="content">  </textarea>
+		</div>
+		<div class="form-group">
+			<label for="name">Author:</label>
+
+			<select name="authorId" class="form-control"> 	
+				<option value="0">Choose Your Name Below</option>
+				<% if(authors) {%>
+				<% authors.forEach(function(a){%>
+				<option value="<%=a.id%>">
+					<%= a.name %>
+				</option>
+				<%});%>
+				<% }%>
+			</select>
+
+			Don't see your name? <a href="/authors/new">Register Here</a>!
+		</div>
+
+		<input type="hidden" name="articleId" value="<%= article.id %>">
+		<input type="submit" value="Give your 2 cents" class="btn btn-warning">
+
+	</form>
+</div>
+
+
+
