@@ -1,7 +1,10 @@
+var async = require('async');
 var express = require('express');
 var router = express.Router();
-var db = require('../models');
+var db = require('../models'); // bring in your database in. // when you need to bring in files, you can bring the files as well;
 
+
+// this code querying the database;
 router.get('/', function(req, res){
 	db.article.findAll().then(function(allArticles){
 		res.render('articles/index', {articles: allArticles});	// render already look for views pages 
@@ -24,12 +27,12 @@ router.get('/new', function(req, res){
 // this route shows the information  for the article+:id page: 
 router.get('/:id', function(req, res){
 	//res.send('article show page goes here');
-	db.article.findOne({
+	db.article.findOne({		// db.tableName.functionName is sequelized query.
 		where: {id: req.params.id},
 		include: [db.author, db.comment, db.tag]
 	}).then(function(foundArticle){
 		db.author.findAll().then(function(allAuthors){
-			res.render('articles/show', {article: foundArticle, authors: allAuthors});
+			res.render('articles/show', {article: foundArticle, authors: allAuthors}); // the second argument sends the data( allAuthors ) to the ejs file.  
 		}).catch(function(err){      // there two queries here 
 			console.log(err);
 		//res.send('oooops');
@@ -55,6 +58,21 @@ router.post('/', function(req, res){
 			}
 			if (tags.length > 0) {
 				// Loop through tags, create if needed, the add relation in join table;
+				async.forEach(tags, function(t, done){
+					// This code runs for each individual tag we need to add
+					db.tag.findOrCreate({
+						where: {name: t.trim()}
+					}).spread(function(newTag, wasCreated){
+						createdArticle.addTag(newTag).then(function(){
+							done(); // tells async, this iteration is all finished!
+						}); // add the tags to the database:   						
+					});
+				}, function(){
+					// This code runs when EVERYTHING IS 100% DONE!
+					res.redirect('/articles/' + createdArticle.id); 
+				});
+
+			/*  Darn: this HAS TIMING Issues!
 				tags.forEach(function(t) {
 					db.tag.findOrCreate({
 						where: {name: t.trim()}
@@ -63,7 +81,8 @@ router.post('/', function(req, res){
 						// <instance model1>.add<model2>(<instance model2>)
 					});      
 				});
-				res.redirect('/articles/' + createdArticle.id);
+				res.redirect('/articles/' + createdArticle.id);    */
+
 			} 
 			else {
 			res.redirect('/articles/' + createdArticle.id); //created the article and the id is created.

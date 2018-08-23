@@ -5,7 +5,20 @@ module.exports = (sequelize, DataTypes) => {
     content: DataTypes.STRING,
     articleId: DataTypes.INTEGER,
     authorId: DataTypes.INTEGER
-  }, {});
+  }, {
+    // hooks:{
+    //   beforeCreate: function(name, fn) {
+    //     name.content = name.content.toLowerCase();
+    //     fn(null, name);   // the done function. 
+    //   }
+    // }
+  });
+
+  comment.hook('beforeCreate', (comment, options) => { // es6
+    comment.content = comment.content.toLowerCase();
+  });
+
+
   comment.associate = function(models) {
   	models.comment.belongsTo(models.article);
   	models.comment.belongsTo(models.author);

@@ -1,0 +1,7 @@
+<form id="edit-tag" action="/tags/<%= tag.id%>">
+	<div class="form-group">  	
+	<label> Tag Name: </label>
+	<input type="text" class="form-control" value="<%= tag.name %>" name="name">
+	</div>
+	<input type="submit" value="Change It!" class="btn btn-warning">
+</form>

@@ -1,0 +1,17 @@
+<h2> All the tags you can handle </h2>
+
+<% tags.forEach(function(t) {%>
+<div>
+	<a href="/tags/<%= t.id%>" style="font-size:25px">
+		#<%= t.name %>
+	</a>
+	<a href="/tags/edit/<%=t.id%>" class="btn btn-warning">
+		Must change it?	
+	</a>
+	<a href="/tags/<%=t.id%>" class="btn btn-danger delete-btn">
+		Do you hate it?	
+	</a>
+</div>
+<%});%>
+
+
