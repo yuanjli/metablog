@@ -44,12 +44,12 @@ router.get('/:id', function(req, res){
 });
 
 
-router.put('/:id', function(req, res){
+router.put('/:id', function(req, res){   // had to be called from ajax 
 	res.send(req.body);
 });
 
 
-router.delete('/:id', function(req, res){
+router.delete('/:id', function(req, res){    // had to be called from ajax 
 	db.tag.findOne({
 		where: { id: req.params.id },
 		include: [db.article]
